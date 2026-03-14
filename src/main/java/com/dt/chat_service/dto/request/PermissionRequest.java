@@ -14,11 +14,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionRequest {
 
-    @NotBlank(message = "Username is mandatory")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @NotBlank(message = "USERNAME_BLANK")
+    @Size(min = 3, message = "USERNAME_INVALID")
     String name;
 
-    @NotBlank(message = "Description is mandatory")
+    @NotBlank(message = "DESCRIPTION_BLANK")
     String description;
 
 }

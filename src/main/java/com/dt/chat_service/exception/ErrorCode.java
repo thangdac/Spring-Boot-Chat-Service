@@ -8,10 +8,15 @@ import org.springframework.http.HttpStatus;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public enum ErrorCode {
+public enum     ErrorCode {
 
     // Validation
     INVALID_INPUT(400, "Invalid input data", HttpStatus.BAD_REQUEST),
+    USERNAME_INVALID(400, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
+    PASSWORD_INVALID(400, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
+    EMAIL_INVALID(400, "Email is not valid", HttpStatus.BAD_REQUEST),
+    USERNAME_BLANK(400, "Username is required", HttpStatus.BAD_REQUEST),
+    PASSWORD_BLANK(400, "Password is required", HttpStatus.BAD_REQUEST),
 
     // Business
     USER_NOT_FOUND(1001, "User not found", HttpStatus.NOT_FOUND),
