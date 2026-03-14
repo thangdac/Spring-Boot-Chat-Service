@@ -4,6 +4,8 @@ import com.dt.chat_service.dto.request.RoleRequest;
 import com.dt.chat_service.dto.response.RoleResponse;
 import com.dt.chat_service.entity.Permission;
 import com.dt.chat_service.entity.Role;
+import com.dt.chat_service.exception.AppException;
+import com.dt.chat_service.exception.ErrorCode;
 import com.dt.chat_service.mapper.RoleMapper;
 import com.dt.chat_service.repository.PermissionRepository;
 import com.dt.chat_service.repository.RoleRepository;
@@ -32,6 +34,11 @@ public class RoleService {
     }
 
     public RoleResponse createRole(RoleRequest request) {
+
+        if(!roleRepository.existsByName(request.getName())) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+
         Role role = roleMapper.toRole(request);
 
         // ✅ Fetch permissions từ DB rồi gán vào role
@@ -45,7 +52,7 @@ public class RoleService {
 
     public void deleteRole(String id) {
         if(!roleRepository.existsById(id)) {
-            throw new RuntimeException("User not found") ;
+            throw new AppException(ErrorCode.USER_NOT_FOUND) ;
         }
         roleRepository.deleteById(id);
     }
