@@ -1,0 +1,8 @@
+package com.dt.chat_service.repository;
+
+import com.dt.chat_service.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, String > {
+    User findByUsername(String username);
+}

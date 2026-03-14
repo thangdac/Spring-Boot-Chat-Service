@@ -1,0 +1,78 @@
+package com.dt.chat_service.controller;
+
+import com.dt.chat_service.dto.request.UserCreationRequest;
+import com.dt.chat_service.dto.request.UserUpdateRequest;
+import com.dt.chat_service.dto.response.APIResponse;
+import com.dt.chat_service.dto.response.UserResponse;
+import com.dt.chat_service.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
+public class UserController {
+
+    UserService userService;
+
+    @GetMapping
+    public APIResponse<List<UserResponse>> getAllUsers() {
+        return APIResponse.<List<UserResponse>>builder()
+                .code(200)
+                .message("Users retrieved successfully")
+                .result(userService.getAllUsers())
+                .build();
+    }
+
+    @GetMapping("/search")
+    public APIResponse<UserResponse> getUserByUsername(@RequestParam String username) {
+        return APIResponse.<UserResponse>builder()
+                .code(200)
+                .message("User found")
+                .result(userService.getUserByUsername(username))
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public APIResponse<UserResponse> getUserById(@PathVariable String id) {
+        return APIResponse.<UserResponse>builder()
+                .code(200)
+                .message("User found")
+                .result(userService.getUserById(id))
+                .build();
+     }
+
+    @PostMapping
+    public APIResponse<UserResponse> createUser(@RequestBody UserCreationRequest request) {
+        return APIResponse.<UserResponse>builder()
+                .code(201)
+                .message("User created successfully")
+                .result(userService.createUser(request))
+                .build();
+     }
+
+     @PutMapping("/{id}")
+     public APIResponse<UserResponse> updateUser(@PathVariable String id, @RequestBody UserUpdateRequest request) {
+         return APIResponse.<UserResponse>builder()
+                 .code(202)
+                 .message("User updated successfully")
+                 .result(userService.updateUser(id, request))
+                 .build();
+      }
+
+      @DeleteMapping("/{id}")
+      public APIResponse<Void> deleteUser(@PathVariable String id) {
+          userService.deleteUser(id);
+          return APIResponse.<Void>builder()
+                  .code(203)
+                  .message("User deleted successfully")
+                  .build();
+       }
+
+}
