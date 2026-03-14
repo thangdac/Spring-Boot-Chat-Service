@@ -15,19 +15,19 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
 
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email is required")
+    @Email(message = "EMAIL_INVALID")
+    @NotBlank(message = "EMAIL_BLANK")
     String email;
 
     // cái này hay tự đìu chỉnh cho theo ý mình (topic hay)
     String dob;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @NotBlank(message = "USERNAME_BLANK")
+    @Size(min = 3, message = "USERNAME_INVALID")
     String username;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @NotBlank(message = "PASSWORD_BLANK")
+    @Size(min = 3, message = "PASSWORD_INVALID")
     String password;
 
 }

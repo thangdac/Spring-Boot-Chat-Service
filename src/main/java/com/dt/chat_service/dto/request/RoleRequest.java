@@ -17,11 +17,11 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @NotBlank(message = "USERNAME_BLANK")
+    @Size(min = 3, message = "USERNAME_INVALID")
     String name;
 
-    @NotBlank(message = "Description is required")
+    @NotBlank(message = "DESCRIPTION_BLANK")
     String description;
 
     Set<String> permissions;
