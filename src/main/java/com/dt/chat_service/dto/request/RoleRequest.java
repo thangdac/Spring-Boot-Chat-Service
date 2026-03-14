@@ -1,6 +1,9 @@
 package com.dt.chat_service.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,8 +17,11 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
 
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     String name;
 
+    @NotBlank(message = "Description is required")
     String description;
 
     Set<String> permissions;
