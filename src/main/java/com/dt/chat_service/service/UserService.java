@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class UserService {
     }
 
     //get user by id
-    public UserResponse getUserById(String id) {
+    public UserResponse getUserById(UUID id) {
         return userMapper.toUserResponse(
                 userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
     }
@@ -52,7 +53,7 @@ public class UserService {
                 userRepository.save(user));
     }
 
-    public UserResponse updateUser(String id, UserUpdateRequest request) {
+    public UserResponse updateUser(UUID id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -61,7 +62,7 @@ public class UserService {
                 userRepository.save(user));
      }
 
-     public void deleteUser(String id) {
+     public void deleteUser(UUID id) {
         if(!userRepository.existsById(id)) {
             throw new AppException(ErrorCode.USER_NOT_FOUND) ;}
         userRepository.deleteById(id);

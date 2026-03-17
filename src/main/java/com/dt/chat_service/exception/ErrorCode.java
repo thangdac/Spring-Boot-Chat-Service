@@ -29,7 +29,14 @@ public enum     ErrorCode {
     // Chat
     MESSAGE_NOT_FOUND(2001, "Message not found", HttpStatus.NOT_FOUND),
     ROOM_NOT_FOUND(2002, "Chat room not found", HttpStatus.NOT_FOUND),
-    ROOM_ALREADY_EXISTS(2003, "Chat room already exists", HttpStatus.CONFLICT);
+    ROOM_ALREADY_EXISTS(2003, "Chat room already exists", HttpStatus.CONFLICT),
+
+    // Auth
+    TOKEN_INVALID(1004, "Token is invalid", HttpStatus.UNAUTHORIZED),
+    TOKEN_EXPIRED(1005, "Token has expired", HttpStatus.UNAUTHORIZED),
+    REFRESH_TOKEN_NOT_FOUND(1006, "Refresh token not found", HttpStatus.UNAUTHORIZED),
+    REFRESH_TOKEN_EXPIRED(1007, "Refresh token has expired", HttpStatus.UNAUTHORIZED),
+    TOKEN_HASH_ERROR(5001, "Token processing error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final int code;
     private final String message;
