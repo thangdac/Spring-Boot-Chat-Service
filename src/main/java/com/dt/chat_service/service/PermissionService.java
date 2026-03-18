@@ -42,7 +42,7 @@ public class PermissionService {
 
     public void deletePermission(String id) {
         if(!permissionRepository.existsById(id)) {
-            throw new RuntimeException("Permission not found") ;
+            throw new AppException(ErrorCode.USER_NOT_FOUND) ;
         }
         permissionRepository.deleteById(id);
     }

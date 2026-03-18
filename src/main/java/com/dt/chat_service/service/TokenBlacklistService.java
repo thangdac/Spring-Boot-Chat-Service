@@ -1,0 +1,38 @@
+package com.dt.chat_service.service;
+
+import com.dt.chat_service.entity.TokenBlacklist;
+import com.dt.chat_service.repository.TokenBlacklistRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+
+@Service
+@RequiredArgsConstructor
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
+public class TokenBlacklistService {
+
+    TokenBlacklistRepository tokenBlacklistRepository;
+
+    public void blacklistToken(String jti, Instant expiresAt) {
+
+        TokenBlacklist entry = new TokenBlacklist();
+        entry.setJti(jti);
+        entry.setExpiresAt(expiresAt);
+        tokenBlacklistRepository.save(entry);
+
+    }
+
+    public boolean isBlacklisted(String jti) {
+        return tokenBlacklistRepository.existsById(jti);
+    }
+
+    // Tự động dọn dẹp mỗi đêm 3h sáng
+    @Scheduled(cron = "0 0 3 * * *")
+    public void cleanupExpired() {
+        tokenBlacklistRepository.deleteByExpiresAtBefore(Instant.now());
+    }
+
+}

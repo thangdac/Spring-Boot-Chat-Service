@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,7 +20,6 @@ public class GlobalExceptionHandler {
 
     private static final String MIN_ATTRIBUTE = "min";
 
-    //lỗi không mong muốn
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<APIResponse<Object>> handleException(Exception ex) {
         log.error("Unexpected error: ", ex);
@@ -33,7 +34,6 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    //lỗi nghiệp vụ
     @ExceptionHandler(value = AppException.class)
     ResponseEntity<APIResponse<Object>> handleAppException(AppException ex) {
 
@@ -65,7 +65,11 @@ public class GlobalExceptionHandler {
             var constraintViolations = ex.getBindingResult()
                     .getAllErrors().getFirst().unwrap(ConstraintViolation.class);
 
-                attributes = constraintViolations.getConstraintDescriptor().getAttributes();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> attrs = (Map<String, Object>) constraintViolations
+                    .getConstraintDescriptor()
+                    .getAttributes();
+            attributes = attrs;
 
         } catch (IllegalArgumentException e) {
             log.warn("Failed to get error attributes for enum key: {}", enumKey, e);
@@ -85,10 +89,29 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    // ← thêm method này vào đây, trước dấu } cuối class
     private String parseMessage(String message, Map<String, Object> attributes) {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
         message = message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
         return message;
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<APIResponse<Object>> handleAccessDeniedException(AccessDeniedException ex) {
+        APIResponse<Object> response = new APIResponse<>();
+        response.setCode(ErrorCode.UNAUTHORIZED.getCode());
+        response.setMessage(ErrorCode.UNAUTHORIZED.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(response);
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    ResponseEntity<APIResponse<Object>> handleAuthenticationException(AuthenticationException ex) {
+        APIResponse<Object> response = new APIResponse<>();
+        response.setCode(ErrorCode.UNAUTHENTICATED.getCode());
+        response.setMessage(ErrorCode.UNAUTHENTICATED.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
     }
 }

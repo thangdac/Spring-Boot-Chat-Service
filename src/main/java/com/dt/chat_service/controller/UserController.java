@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public APIResponse<UserResponse> getUserById(@PathVariable String id) {
+    public APIResponse<UserResponse> getUserById(@PathVariable UUID id) {
         return APIResponse.<UserResponse>builder()
                 .message("User found")
                 .result(userService.getUserById(id))
@@ -55,7 +56,7 @@ public class UserController {
      }
 
      @PutMapping("/{id}")
-     public APIResponse<UserResponse> updateUser(@PathVariable String id, @RequestBody @Valid UserUpdateRequest request) {
+     public APIResponse<UserResponse> updateUser(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest request) {
          return APIResponse.<UserResponse>builder()
                  .message("User updated successfully")
                  .result(userService.updateUser(id, request))
@@ -63,7 +64,7 @@ public class UserController {
       }
 
       @DeleteMapping("/{id}")
-      public APIResponse<Void> deleteUser(@PathVariable String id) {
+      public APIResponse<Void> deleteUser(@PathVariable UUID id) {
           userService.deleteUser(id);
           return APIResponse.<Void>builder()
                   .message("User deleted successfully")
