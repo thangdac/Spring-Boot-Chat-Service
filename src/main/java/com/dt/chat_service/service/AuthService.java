@@ -1,14 +1,16 @@
 package com.dt.chat_service.service;
 
-import com.dt.chat_service.Security.JwtAuthFilter;
 import com.dt.chat_service.Security.JwtTokenProvider;
 import com.dt.chat_service.dto.request.LoginRequest;
+import com.dt.chat_service.dto.request.UserCreationRequest;
 import com.dt.chat_service.dto.response.IntrospectResponse;
 import com.dt.chat_service.dto.response.TokenResponse;
 import com.dt.chat_service.entity.RefreshToken;
 import com.dt.chat_service.entity.User;
+import com.dt.chat_service.enums.UserStatus;
 import com.dt.chat_service.exception.AppException;
 import com.dt.chat_service.exception.ErrorCode;
+import com.dt.chat_service.mapper.UserMapper;
 import com.dt.chat_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +32,7 @@ public class AuthService {
     JwtTokenProvider jwtTokenProvider;
     AuthenticationManager authenticationManager;
     PasswordEncoder passwordEncoder;
+    UserMapper userMapper;
 
 
     // login
@@ -47,6 +50,20 @@ public class AuthService {
         String refreshToken = refreshTokenService.createRefreshToken(user, deviceInfo);
 
         return new TokenResponse(accessToken, refreshToken);
+    }
+
+    //register
+    public void register(UserCreationRequest request) {
+
+        if(userRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
+        }
+        User user = userMapper.toUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setStatus(UserStatus.ACTIVE);
+
+        userMapper.toUserResponse(
+                userRepository.save(user));
     }
 
     // Refresh access token

@@ -15,10 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+
 import com.dt.chat_service.Security.JwtAuthFilter;
 import com.dt.chat_service.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +30,8 @@ public class SecurityConfig {
 
     JwtAuthFilter jwtAuthFilter;
     CustomUserDetailsService customUserDetailsService;
+    JwtExceptionHandler.EntryPoint authenticationEntryPoint;
+    JwtExceptionHandler.AccessDenied accessDeniedHandler;
 
 
     @Bean
@@ -42,6 +46,9 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
                 .build();
     }
 

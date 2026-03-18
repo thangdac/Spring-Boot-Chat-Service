@@ -21,10 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    @Value("${spring.app.jwt.refresh-token-expiry}")
-    private long refreshTokenExpiry;
+    @Value("${app.jwt.refresh-token-expiry}")
+    private Long refreshTokenExpiry;
 
 
     // Tạo refresh token mới và lưu vào DB

@@ -48,7 +48,6 @@ public class UserService {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
         User user = userMapper.toUser(request);
-
         return userMapper.toUserResponse(
                 userRepository.save(user));
     }

@@ -2,6 +2,7 @@ package com.dt.chat_service.controller;
 
 import com.dt.chat_service.dto.request.LoginRequest;
 import com.dt.chat_service.dto.request.RefreshRequest;
+import com.dt.chat_service.dto.request.UserCreationRequest;
 import com.dt.chat_service.dto.response.APIResponse;
 import com.dt.chat_service.dto.response.IntrospectResponse;
 import com.dt.chat_service.dto.response.TokenResponse;
@@ -31,6 +32,14 @@ public class AuthController {
         TokenResponse tokens = authService.login(request, deviceInfo);
         return ResponseEntity.ok(APIResponse.<TokenResponse>builder()
                 .result(tokens)
+                .build());
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<APIResponse<Void>> register(@RequestBody @Valid UserCreationRequest request) {
+        authService.register(request);
+        return ResponseEntity.ok(APIResponse.<Void>builder()
+                .message("Registration successful")
                 .build());
     }
 

@@ -1,6 +1,7 @@
 package com.dt.chat_service.repository;
 
 import com.dt.chat_service.entity.RefreshToken;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +17,9 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
 
     List<RefreshToken> findAllByUserId(UUID userId);
 
+    @Transactional
     void deleteByTokenHash(String tokenHash);
 
-    // Cleanup token hết hạn — gọi bằng @Scheduled
+    @Transactional
     void deleteByExpiresAtBefore(Instant now);
 }

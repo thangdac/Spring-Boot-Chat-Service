@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -91,5 +93,25 @@ public class GlobalExceptionHandler {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
         message = message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
         return message;
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<APIResponse<Object>> handleAccessDeniedException(AccessDeniedException ex) {
+        APIResponse<Object> response = new APIResponse<>();
+        response.setCode(ErrorCode.UNAUTHORIZED.getCode());
+        response.setMessage(ErrorCode.UNAUTHORIZED.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(response);
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    ResponseEntity<APIResponse<Object>> handleAuthenticationException(AuthenticationException ex) {
+        APIResponse<Object> response = new APIResponse<>();
+        response.setCode(ErrorCode.UNAUTHENTICATED.getCode());
+        response.setMessage(ErrorCode.UNAUTHENTICATED.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
     }
 }

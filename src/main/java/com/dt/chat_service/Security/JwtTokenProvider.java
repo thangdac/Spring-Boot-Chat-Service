@@ -22,10 +22,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${spring.app.jwt.secret}")
+    @Value("${app.jwt.secret}")
     private String secret;
 
-    @Value("${spring.app.jwt.access-token-expiry}")
+    @Value("${app.jwt.access-token-expiry}")
     private long accessTokenExpiry;
 
     private SecretKey getSigningKey() {

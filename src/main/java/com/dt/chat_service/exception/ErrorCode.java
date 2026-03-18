@@ -36,7 +36,8 @@ public enum     ErrorCode {
     TOKEN_EXPIRED(1005, "Token has expired", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_NOT_FOUND(1006, "Refresh token not found", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_EXPIRED(1007, "Refresh token has expired", HttpStatus.UNAUTHORIZED),
-    TOKEN_HASH_ERROR(5001, "Token processing error", HttpStatus.INTERNAL_SERVER_ERROR);
+    TOKEN_HASH_ERROR(5001, "Token processing error", HttpStatus.INTERNAL_SERVER_ERROR),
+    UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED);
 
     private final int code;
     private final String message;

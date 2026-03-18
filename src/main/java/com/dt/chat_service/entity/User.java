@@ -39,7 +39,7 @@ public class User implements UserDetails {
     UserStatus status;
 
     // Relationships
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Role> roles;
 
     // ── UserDetails methods ──
