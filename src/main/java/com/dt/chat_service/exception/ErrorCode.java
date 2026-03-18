@@ -30,6 +30,7 @@ public enum     ErrorCode {
     MESSAGE_NOT_FOUND(2001, "Message not found", HttpStatus.NOT_FOUND),
     ROOM_NOT_FOUND(2002, "Chat room not found", HttpStatus.NOT_FOUND),
     ROOM_ALREADY_EXISTS(2003, "Chat room already exists", HttpStatus.CONFLICT),
+    CANNOT_DELETE_MESSAGE(2008, "You can only delete your own message", HttpStatus.FORBIDDEN),
 
     // Auth
     TOKEN_INVALID(1004, "Token is invalid", HttpStatus.UNAUTHORIZED),
@@ -37,7 +38,14 @@ public enum     ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(1006, "Refresh token not found", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_EXPIRED(1007, "Refresh token has expired", HttpStatus.UNAUTHORIZED),
     TOKEN_HASH_ERROR(5001, "Token processing error", HttpStatus.INTERNAL_SERVER_ERROR),
-    UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED);
+    UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+
+    // Conversation
+    NOT_A_MEMBER(2004, "You are not a member of this conversation", HttpStatus.FORBIDDEN),
+    NOT_AN_ADMIN(2005, "You are not an admin of this conversation", HttpStatus.FORBIDDEN),
+    CONVERSATION_NOT_FOUND(2006, "Conversation not found", HttpStatus.NOT_FOUND),
+    ALREADY_A_MEMBER(2007, "User is already a member of this conversation", HttpStatus.CONFLICT);
+
 
     private final int code;
     private final String message;
