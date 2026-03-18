@@ -34,6 +34,7 @@ public class User implements UserDetails {
     String email;
     LocalDate dob;
     String password;
+    String avatarUrl;
 
     @Enumerated(EnumType.STRING)
     UserStatus status;
