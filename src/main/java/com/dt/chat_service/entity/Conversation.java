@@ -42,4 +42,12 @@ public class Conversation {
     @Column(nullable = false)
     private Instant updatedAt;
 
+    // Trong Conversation.java — thêm field này
+    @OneToMany(mappedBy = "conversation",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @OrderBy("createdAt DESC") // sắp xếp mới nhất lên đầu
+    private List<Message> messages = new ArrayList<>();
+
+
 }
