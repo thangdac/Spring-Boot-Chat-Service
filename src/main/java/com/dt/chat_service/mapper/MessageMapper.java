@@ -12,7 +12,7 @@ public interface MessageMapper {
     @Mapping(target = "conversationId", source = "conversation.id")
     @Mapping(target = "senderId", source = "sender.id")
     @Mapping(target = "senderName", source = "sender.username")
-    @Mapping(target = "senderAvatar", source = "sender.avatar")
+    @Mapping(target = "senderAvatar", source = "sender.avatarUrl")
     MessageResponse toMessageResponse(Message message);
 
 }

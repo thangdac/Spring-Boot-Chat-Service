@@ -16,14 +16,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/message")
 @RequiredArgsConstructor
 public class MessageController {
 
     private final MessageService messageService;
 
     //send message
-    @PostMapping
+    @PostMapping("/api/message")
     public ResponseEntity<APIResponse<MessageResponse>> sendMessage(@RequestBody @Valid SendMessageRequest request){
 
         UUID senderId = SecurityUtils.getCurrentUserId();
@@ -38,7 +37,7 @@ public class MessageController {
     }
 
     //history message
-    @GetMapping("/conversation/{conversationId}")
+    @GetMapping("/api/conversations/{conversationId}/messages")
     public ResponseEntity<APIResponse<List<MessageResponse>>> historyMessage(
                                                                              @PathVariable UUID conversationId,
                                                                              @RequestParam(required = false) Instant before,
@@ -55,7 +54,7 @@ public class MessageController {
     }
 
     //count unRead message
-    @GetMapping("/conversation/{conversationId}/unRead")
+    @GetMapping("/api/conversations/{conversationId}/unRead")
     public ResponseEntity<APIResponse<UnReadResponse>> countUnRead(@PathVariable UUID conversationId){
 
         UUID userId = SecurityUtils.getCurrentUserId();
@@ -70,7 +69,7 @@ public class MessageController {
 
     }
 
-    @PutMapping("/conversation/{conversationId}/read")
+    @PutMapping("/api/conversations/{conversationId}/read")
     public ResponseEntity<APIResponse<Void>> markAsRead(
             @PathVariable UUID conversationId) {
 
