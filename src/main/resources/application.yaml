@@ -17,3 +17,7 @@ app:
     secret: ${APP_JWT_SECRET}
     access-token-expiry: 900000     # 15 minutes
     refresh-token-expiry: 604800000 # 7 days
+
+server:
+  address: 0.0.0.0
+  port: 8080

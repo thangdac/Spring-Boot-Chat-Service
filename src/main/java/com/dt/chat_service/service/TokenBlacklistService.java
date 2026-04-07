@@ -1,13 +1,15 @@
 package com.dt.chat_service.service;
 
-import com.dt.chat_service.entity.TokenBlacklist;
-import com.dt.chat_service.repository.TokenBlacklistRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.time.Instant;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import com.dt.chat_service.entity.TokenBlacklist;
+import com.dt.chat_service.repository.TokenBlacklistRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,6 @@ public class TokenBlacklistService {
         entry.setJti(jti);
         entry.setExpiresAt(expiresAt);
         tokenBlacklistRepository.save(entry);
-
     }
 
     public boolean isBlacklisted(String jti) {
@@ -34,5 +35,4 @@ public class TokenBlacklistService {
     public void cleanupExpired() {
         tokenBlacklistRepository.deleteByExpiresAtBefore(Instant.now());
     }
-
 }

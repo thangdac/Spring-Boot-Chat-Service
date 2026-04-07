@@ -1,18 +1,20 @@
 package com.dt.chat_service.controller;
 
+import java.util.List;
+import java.util.UUID;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.dt.chat_service.dto.request.CreateConversationRequest;
 import com.dt.chat_service.dto.response.APIResponse;
 import com.dt.chat_service.dto.response.ConversationResponse;
 import com.dt.chat_service.service.ConversationService;
 import com.dt.chat_service.utils.SecurityUtils;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/conversations")
@@ -29,9 +31,8 @@ public class ConversationController {
         UUID userId = SecurityUtils.getCurrentUserId(); // ← gọi trực tiếp
         ConversationResponse response = conversationService.createConversation(request, userId);
 
-        return ResponseEntity.ok(APIResponse.<ConversationResponse>builder()
-                .result(response)
-                .build());
+        return ResponseEntity.ok(
+                APIResponse.<ConversationResponse>builder().result(response).build());
     }
 
     // Lấy danh sách conversation của mình
@@ -48,17 +49,12 @@ public class ConversationController {
 
     // Lấy chi tiết 1 conversation
     @GetMapping("/{conversationId}")
-    public ResponseEntity<APIResponse<ConversationResponse>> getConversation(
-            @PathVariable UUID conversationId) {
+    public ResponseEntity<APIResponse<ConversationResponse>> getConversation(@PathVariable UUID conversationId) {
 
         UUID userId = SecurityUtils.getCurrentUserId();
-        ConversationResponse response = conversationService
-                .getConversation(conversationId, userId);
+        ConversationResponse response = conversationService.getConversation(conversationId, userId);
 
-        return ResponseEntity.ok(APIResponse.<ConversationResponse>builder()
-                .result(response)
-                .build());
+        return ResponseEntity.ok(
+                APIResponse.<ConversationResponse>builder().result(response).build());
     }
-
-
 }

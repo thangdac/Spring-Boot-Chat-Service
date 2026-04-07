@@ -1,12 +1,13 @@
 package com.dt.chat_service.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 
 @Data
 @Builder
@@ -14,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 public class UserUpdateRequest {
     @Email(message = "EMAIL_INVALID")
     @NotBlank(message = "EMAIL_BLANK")

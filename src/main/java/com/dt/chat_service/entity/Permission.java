@@ -1,8 +1,10 @@
 package com.dt.chat_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +21,6 @@ public class Permission {
 
     @Id
     String name;
-    String description;
 
+    String description;
 }

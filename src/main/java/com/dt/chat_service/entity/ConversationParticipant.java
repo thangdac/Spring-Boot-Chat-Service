@@ -1,16 +1,17 @@
 package com.dt.chat_service.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.Instant;
 import java.util.UUID;
 
+import jakarta.persistence.*;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
-@Table(name = "conversation_participants",
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {"conversation_id", "user_id"}))
+@Table(
+        name = "conversation_participants",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"conversation_id", "user_id"}))
 @Data
 @NoArgsConstructor
 public class ConversationParticipant {
@@ -34,5 +35,4 @@ public class ConversationParticipant {
 
     @Column(nullable = false, updatable = false)
     private Instant joinedAt = Instant.now();
-
 }

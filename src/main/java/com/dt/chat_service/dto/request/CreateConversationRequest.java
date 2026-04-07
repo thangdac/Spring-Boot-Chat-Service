@@ -1,13 +1,15 @@
 package com.dt.chat_service.dto.request;
 
-import com.dt.chat_service.enums.ConversationType;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import com.dt.chat_service.enums.ConversationType;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -27,5 +29,4 @@ public class CreateConversationRequest {
     private String name;
 
     private String avatarUrl;
-
 }

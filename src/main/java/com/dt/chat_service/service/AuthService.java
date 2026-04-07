@@ -1,5 +1,12 @@
 package com.dt.chat_service.service;
 
+import java.time.Instant;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.dt.chat_service.Security.JwtTokenProvider;
 import com.dt.chat_service.dto.request.LoginRequest;
 import com.dt.chat_service.dto.request.UserCreationRequest;
@@ -12,14 +19,9 @@ import com.dt.chat_service.exception.AppException;
 import com.dt.chat_service.exception.ErrorCode;
 import com.dt.chat_service.mapper.UserMapper;
 import com.dt.chat_service.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +36,14 @@ public class AuthService {
     PasswordEncoder passwordEncoder;
     UserMapper userMapper;
 
-
     // login
     public TokenResponse login(LoginRequest request, String deviceInfo) {
         // Xác thực username/password
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository
+                .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         String accessToken = jwtTokenProvider.generateAccessToken(user);
@@ -52,18 +52,17 @@ public class AuthService {
         return new TokenResponse(accessToken, refreshToken);
     }
 
-    //register
+    // register
     public void register(UserCreationRequest request) {
 
-        if(userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setStatus(UserStatus.ACTIVE);
 
-        userMapper.toUserResponse(
-                userRepository.save(user));
+        userMapper.toUserResponse(userRepository.save(user));
     }
 
     // Refresh access token
@@ -72,8 +71,7 @@ public class AuthService {
         User user = stored.getUser();
 
         String newAccessToken = jwtTokenProvider.generateAccessToken(user);
-        String newRefreshToken = refreshTokenService.createRefreshToken(
-                user, stored.getDeviceInfo());
+        String newRefreshToken = refreshTokenService.createRefreshToken(user, stored.getDeviceInfo());
 
         // Xóa refresh token cũ
         refreshTokenService.revoke(refreshToken);
@@ -94,10 +92,8 @@ public class AuthService {
 
     public IntrospectResponse introspect(String accessToken) {
         boolean valid = jwtTokenProvider.isValid(accessToken)
-                && !tokenBlacklistService.isBlacklisted(
-                jwtTokenProvider.getJti(accessToken));
+                && !tokenBlacklistService.isBlacklisted(jwtTokenProvider.getJti(accessToken));
 
         return new IntrospectResponse(valid);
     }
-
 }

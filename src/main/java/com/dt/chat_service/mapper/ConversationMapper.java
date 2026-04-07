@@ -1,11 +1,12 @@
 package com.dt.chat_service.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import com.dt.chat_service.dto.response.ConversationResponse;
 import com.dt.chat_service.dto.response.ParticipantResponse;
 import com.dt.chat_service.entity.Conversation;
 import com.dt.chat_service.entity.ConversationParticipant;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ConversationMapper {
