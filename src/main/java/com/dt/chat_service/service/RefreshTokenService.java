@@ -1,21 +1,22 @@
 package com.dt.chat_service.service;
 
-import com.dt.chat_service.entity.RefreshToken;
-import com.dt.chat_service.entity.User;
-import com.dt.chat_service.exception.AppException;
-import com.dt.chat_service.exception.ErrorCode;
-import com.dt.chat_service.repository.RefreshTokenRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.dt.chat_service.entity.RefreshToken;
+import com.dt.chat_service.entity.User;
+import com.dt.chat_service.exception.AppException;
+import com.dt.chat_service.exception.ErrorCode;
+import com.dt.chat_service.repository.RefreshTokenRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,6 @@ public class RefreshTokenService {
 
     @Value("${app.jwt.refresh-token-expiry}")
     private Long refreshTokenExpiry;
-
 
     // Tạo refresh token mới và lưu vào DB
     public String createRefreshToken(User user, String deviceInfo) {
@@ -67,16 +67,14 @@ public class RefreshTokenService {
 
     // Xóa tất cả refresh token của user — dùng khi đổi mật khẩu
     public void revokeAll(UUID userId) {
-        refreshTokenRepository.deleteAll(
-                refreshTokenRepository.findAllByUserId(userId));
+        refreshTokenRepository.deleteAll(refreshTokenRepository.findAllByUserId(userId));
     }
 
     // Hash SHA-256 trước khi lưu DB
     private String hashToken(String plainToken) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(
-                    plainToken.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = digest.digest(plainToken.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash);
         } catch (NoSuchAlgorithmException e) {
             throw new AppException(ErrorCode.TOKEN_HASH_ERROR);

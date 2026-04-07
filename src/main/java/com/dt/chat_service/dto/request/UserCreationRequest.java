@@ -1,9 +1,11 @@
 package com.dt.chat_service.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -29,5 +31,4 @@ public class UserCreationRequest {
     @NotBlank(message = "PASSWORD_BLANK")
     @Size(min = 3, message = "PASSWORD_INVALID")
     String password;
-
 }

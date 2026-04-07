@@ -1,14 +1,16 @@
 package com.dt.chat_service.exception;
 
+import org.springframework.http.HttpStatus;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public enum     ErrorCode {
+public enum ErrorCode {
 
     // Validation
     INVALID_INPUT(400, "Invalid input data", HttpStatus.BAD_REQUEST),
@@ -46,16 +48,13 @@ public enum     ErrorCode {
     CONVERSATION_NOT_FOUND(2006, "Conversation not found", HttpStatus.NOT_FOUND),
     ALREADY_A_MEMBER(2007, "User is already a member of this conversation", HttpStatus.CONFLICT);
 
-
     private final int code;
     private final String message;
     private final HttpStatus status;
 
-        ErrorCode(int code, String message, HttpStatus status) {
-            this.code = code;
-            this.message = message;
-            this.status = status;
-        }
-
-
+    ErrorCode(int code, String message, HttpStatus status) {
+        this.code = code;
+        this.message = message;
+        this.status = status;
+    }
 }

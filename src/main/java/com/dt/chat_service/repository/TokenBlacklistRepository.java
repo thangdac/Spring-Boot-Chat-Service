@@ -1,10 +1,11 @@
 package com.dt.chat_service.repository;
 
-import com.dt.chat_service.entity.TokenBlacklist;
+import java.time.Instant;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import com.dt.chat_service.entity.TokenBlacklist;
 
 @Repository
 public interface TokenBlacklistRepository extends JpaRepository<TokenBlacklist, String> {

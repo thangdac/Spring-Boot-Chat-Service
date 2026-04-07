@@ -1,16 +1,19 @@
 package com.dt.chat_service.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.dt.chat_service.dto.request.RoleRequest;
 import com.dt.chat_service.dto.response.APIResponse;
 import com.dt.chat_service.dto.response.RoleResponse;
 import com.dt.chat_service.service.RoleService;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,10 +39,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/{name}")
-    public APIResponse<Void> deleteRole(@PathVariable  String name) {
+    public APIResponse<Void> deleteRole(@PathVariable String name) {
         roleService.deleteRole(name);
-        return APIResponse.<Void>builder()
-                .build();
+        return APIResponse.<Void>builder().build();
     }
-
 }

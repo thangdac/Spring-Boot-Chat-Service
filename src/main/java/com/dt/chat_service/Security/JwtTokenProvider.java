@@ -1,22 +1,22 @@
 package com.dt.chat_service.Security;
 
-import com.dt.chat_service.entity.Role;
-import com.dt.chat_service.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.dt.chat_service.entity.Role;
+import com.dt.chat_service.entity.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -37,9 +37,7 @@ public class JwtTokenProvider {
     public String generateAccessToken(User user) {
         return Jwts.builder()
                 .subject(user.getId().toString())
-                .claim("roles", user.getRoles().stream()
-                        .map(Role::getName)
-                        .toList())
+                .claim("roles", user.getRoles().stream().map(Role::getName).toList())
                 .id(UUID.randomUUID().toString()) // jti — dùng cho blacklist
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiry))
@@ -77,5 +75,4 @@ public class JwtTokenProvider {
     public Instant getExpiration(String token) {
         return parseToken(token).getExpiration().toInstant();
     }
-
 }

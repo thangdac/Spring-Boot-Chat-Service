@@ -1,12 +1,13 @@
 package com.dt.chat_service.repository;
 
-import com.dt.chat_service.entity.ConversationParticipant;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.dt.chat_service.entity.ConversationParticipant;
 
 @Repository
 public interface ConversationParticipantRepository extends JpaRepository<ConversationParticipant, UUID> {
@@ -20,7 +21,5 @@ public interface ConversationParticipantRepository extends JpaRepository<Convers
     boolean existsByConversationIdAndUserId(UUID conversationId, UUID userId);
 
     // Tìm participant cụ thể — dùng khi kick member hoặc update lastReadAt
-    Optional<ConversationParticipant> findByConversationIdAndUserId(
-            UUID conversationId, UUID userId);
-
+    Optional<ConversationParticipant> findByConversationIdAndUserId(UUID conversationId, UUID userId);
 }

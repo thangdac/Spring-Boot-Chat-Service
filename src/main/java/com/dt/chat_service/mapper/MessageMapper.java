@@ -1,10 +1,10 @@
 package com.dt.chat_service.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.dt.chat_service.dto.response.MessageResponse;
 import com.dt.chat_service.entity.Message;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MessageMapper {
@@ -14,5 +14,4 @@ public interface MessageMapper {
     @Mapping(target = "senderName", source = "sender.username")
     @Mapping(target = "senderAvatar", source = "sender.avatarUrl")
     MessageResponse toMessageResponse(Message message);
-
 }

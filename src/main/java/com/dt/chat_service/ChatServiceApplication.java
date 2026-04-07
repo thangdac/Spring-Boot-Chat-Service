@@ -10,8 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 public class ChatServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ChatServiceApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(ChatServiceApplication.class, args);
+    }
 }

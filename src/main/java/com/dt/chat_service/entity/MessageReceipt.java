@@ -1,18 +1,21 @@
 package com.dt.chat_service.entity;
 
-import com.dt.chat_service.enums.MessageStatus;
+import java.time.Instant;
+import java.util.UUID;
+
 import jakarta.persistence.*;
+
+import com.dt.chat_service.enums.MessageStatus;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
-import java.util.UUID;
-
 @Entity
-@Table(name = "message_receipts",
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {"message_id", "user_id"})) // mỗi user chỉ có 1 receipt/message
+@Table(
+        name = "message_receipts",
+        uniqueConstraints =
+                @UniqueConstraint(columnNames = {"message_id", "user_id"})) // mỗi user chỉ có 1 receipt/message
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,5 +40,5 @@ public class MessageReceipt {
     private MessageStatus status = MessageStatus.DELIVERED;
 
     private Instant deliveredAt; // lúc nhận được
-    private Instant readAt;      // lúc đọc
+    private Instant readAt; // lúc đọc
 }

@@ -1,25 +1,27 @@
 package com.dt.chat_service.entity;
 
-import com.dt.chat_service.enums.MessageStatus;
-import com.dt.chat_service.enums.MessageType;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.dt.chat_service.enums.MessageStatus;
+import com.dt.chat_service.enums.MessageType;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @Entity
-@Table(name = "messages",
-        indexes = @Index(
-                name = "idx_messages_conversation_created",
-                columnList = "conversation_id, created_at DESC"))
+@Table(
+        name = "messages",
+        indexes = @Index(name = "idx_messages_conversation_created", columnList = "conversation_id, created_at DESC"))
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class Message {
@@ -47,9 +49,7 @@ public class Message {
     @Column(nullable = false)
     private MessageStatus overallStatus = MessageStatus.SENT;
 
-    @OneToMany(mappedBy = "message",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MessageReceipt> receipts = new ArrayList<>();
 
     @CreatedDate
@@ -60,4 +60,3 @@ public class Message {
     @Column(nullable = false)
     private Instant updatedAt;
 }
-

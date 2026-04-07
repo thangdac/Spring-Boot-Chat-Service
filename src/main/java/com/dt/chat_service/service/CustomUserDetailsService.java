@@ -1,16 +1,18 @@
 package com.dt.chat_service.service;
 
-import com.dt.chat_service.exception.AppException;
-import com.dt.chat_service.exception.ErrorCode;
-import com.dt.chat_service.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.util.UUID;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import com.dt.chat_service.exception.AppException;
+import com.dt.chat_service.exception.ErrorCode;
+import com.dt.chat_service.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        return userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 
     public UserDetails loadUserById(String id) {
-        return userRepository.findById(UUID.fromString(id))
+        return userRepository
+                .findById(UUID.fromString(id))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
-
 }

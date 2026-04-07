@@ -1,11 +1,12 @@
 package com.dt.chat_service.dto.response;
 
+import java.util.Set;
+
 import com.dt.chat_service.entity.Permission;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Data
 @Builder
@@ -18,5 +19,4 @@ public class RoleResponse {
     String name;
     String description;
     Set<Permission> permissions;
-
 }

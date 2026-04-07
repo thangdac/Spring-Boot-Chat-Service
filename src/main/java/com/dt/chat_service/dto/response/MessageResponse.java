@@ -1,13 +1,14 @@
 package com.dt.chat_service.dto.response;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import com.dt.chat_service.enums.MessageStatus;
 import com.dt.chat_service.enums.MessageType;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -26,5 +27,4 @@ public class MessageResponse {
     MessageType type;
     MessageStatus overallStatus;
     Instant createdAt;
-
 }
