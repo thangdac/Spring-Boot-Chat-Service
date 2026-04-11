@@ -42,7 +42,8 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ← sửa dòng này
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**","/api/users/*/status")
                         .permitAll()
                         .requestMatchers("/ws/**")
                         .permitAll()
