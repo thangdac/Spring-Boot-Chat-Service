@@ -8,14 +8,13 @@ import jakarta.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 public class Role {
 
     @Id
+    @EqualsAndHashCode.Include
     String name;
 
     String description;

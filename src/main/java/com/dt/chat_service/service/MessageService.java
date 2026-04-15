@@ -74,11 +74,6 @@ public class MessageService {
                 MessageReceipt receipt = new MessageReceipt();
                 receipt.setMessage(message);
                 receipt.setUser(participant.getUser());
-//                if (isUserOnline(participant.getUser().getId())) {
-//                    receipt.setStatus(MessageStatus.DELIVERED);
-//                } else {
-//                    receipt.setStatus(MessageStatus.SENT);
-//                }
                 receipt.setStatus(MessageStatus.DELIVERED);
                 message.getReceipts().add(receipt);
             }
@@ -150,4 +145,6 @@ public class MessageService {
 
         return new UnReadResponse(count);
     }
+
+
 }

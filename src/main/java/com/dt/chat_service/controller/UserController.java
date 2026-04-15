@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.dt.chat_service.dto.request.UserCreationRequest;
 import com.dt.chat_service.dto.request.UserUpdateRequest;
 import com.dt.chat_service.dto.response.APIResponse;
 import com.dt.chat_service.dto.response.UserResponse;
@@ -47,14 +46,6 @@ public class UserController {
         return APIResponse.<UserResponse>builder()
                 .message("User found")
                 .result(userService.getUserById(id))
-                .build();
-    }
-
-    @PostMapping
-    public APIResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-        return APIResponse.<UserResponse>builder()
-                .message("User created successfully")
-                .result(userService.createUser(request))
                 .build();
     }
 

@@ -19,6 +19,7 @@ public enum ErrorCode {
     EMAIL_INVALID(400, "Email is not valid", HttpStatus.BAD_REQUEST),
     USERNAME_BLANK(400, "Username is required", HttpStatus.BAD_REQUEST),
     PASSWORD_BLANK(400, "Password is required", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_FOUND(400, "Role not found", HttpStatus.BAD_REQUEST),
 
     // Business
     USER_NOT_FOUND(1001, "User not found", HttpStatus.NOT_FOUND),

@@ -1,7 +1,10 @@
 package com.dt.chat_service.service;
 
 import java.time.Instant;
+import java.util.Set;
 
+import com.dt.chat_service.entity.Role;
+import com.dt.chat_service.repository.RoleRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,20 +38,19 @@ public class AuthService {
     AuthenticationManager authenticationManager;
     PasswordEncoder passwordEncoder;
     UserMapper userMapper;
+    RoleRepository roleRepository;
 
     // login
     public TokenResponse login(LoginRequest request, String deviceInfo) {
-        // Xác thực username/password
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
 
-        User user = userRepository
-                .findByUsername(request.getUsername())
+        User user = userRepository.findByUsernameWithRoles(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         String accessToken = jwtTokenProvider.generateAccessToken(user);
         String refreshToken = refreshTokenService.createRefreshToken(user, deviceInfo);
-
         return new TokenResponse(accessToken, refreshToken);
     }
 
@@ -58,11 +60,17 @@ public class AuthService {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
+
+        // Lấy role USER từ DB
+        Role defaultRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setStatus(UserStatus.ACTIVE);
+        user.setRoles(Set.of(defaultRole)); // ← Set role ở đây
 
-        userMapper.toUserResponse(userRepository.save(user));
+        userRepository.save(user);
     }
 
     // Refresh access token
@@ -75,7 +83,6 @@ public class AuthService {
 
         // Xóa refresh token cũ
         refreshTokenService.revoke(refreshToken);
-
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
@@ -85,7 +92,6 @@ public class AuthService {
         String jti = jwtTokenProvider.getJti(accessToken);
         Instant expiration = jwtTokenProvider.getExpiration(accessToken);
         tokenBlacklistService.blacklistToken(jti, expiration);
-
         // Xóa refresh token
         refreshTokenService.revoke(refreshToken);
     }

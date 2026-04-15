@@ -20,7 +20,6 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
-
 public class WebSocketEventListener {
 
     final UserStatusService userStatusService;

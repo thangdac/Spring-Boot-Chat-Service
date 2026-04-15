@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,14 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.dt.chat_service.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,6 +43,11 @@ public class User implements UserDetails {
 
     // Relationships
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",                          // ← đúng tên bảng trong DB
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id") // ← role PK là "name"
+    )
     Set<Role> roles;
 
     // ── UserDetails methods ──
