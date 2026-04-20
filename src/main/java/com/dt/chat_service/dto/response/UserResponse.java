@@ -1,6 +1,7 @@
 package com.dt.chat_service.dto.response;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -15,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
 
-    String id;
+    UUID id;
 
     String username;
 
